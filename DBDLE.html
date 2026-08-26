@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DBDLE</title>
+    <link rel="icon" type="image/x-icon" href="imagens/icone.png">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="jogo-container">
+        <div class="header-container">
+            <img src= "imagens/fundo.png" class="logo-fundo" alt="Logo DBD">
+            <h1>DBDLE</h1>
+        </div>
+        
+        <div class="input-area">
+            <div class="autocomplete-container">
+                <input type="text" id="inputKiller" placeholder="Digite o nome do Killer..." autocomplete="off">
+                <div id="sugestoes" class="sugestoes-box"></div>
+            </div>
+            <button onclick="jogar()" id="chuteButton">Chutar</button>
+        </div>
+
+        <div class="labels">
+            <span>Killer</span>
+            <span>Gênero</span>
+            <span>Velocidade</span>
+            <span>Raio</span>
+            <span>Altura</span>
+            <span>Ano</span>
+            <span>Origem</span>
+        </div>
+        <div id="listaTentativas"></div>
+    </div>
+    <div id="modalVitoria" class="modal">
+        <div class="modal-content">
+            <h2 id="mensagemVitoria">VOCÊ ACERTOU!</h2>
+            <p>O Killer secreto era:</p>
+            <h1 id="nomeKillerVitoria"></h1>
+            <button onclick="reiniciarJogo()">Jogar Novamente</button>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>

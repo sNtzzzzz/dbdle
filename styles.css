@@ -1,0 +1,321 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Flex:opsz,wght,XOPQ,XTRA,YOPQ,YTDE,YTFI,YTLC,YTUC@8..144,100..1000,96,468,79,-203,738,514,712&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Flex:opsz,wght,XOPQ,XTRA,YOPQ,YTDE,YTFI,YTLC,YTUC@8..144,100..1000,96,468,79,-203,738,514,712&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Archivo+Black&family=Quicksand:wght@300..700&display=swap');
+body {
+    background-color: #1a1a1a;
+    font-family: "Roboto Flex", sans-serif;
+    color: white;
+    text-align: center;
+    padding: 20px;
+}
+
+.tituloMain {
+    font-size: 100px;
+    font-family: "Roboto Flex", sans-serif;
+    font-weight: 1000;          /* Máximo de bold da Roboto Flex */
+    text-transform: uppercase;  /* Garante o estilo da logo */
+    letter-spacing: -3px;       /* Deixa as letras "grudadas" como na imagem */
+    color: white;
+    text-shadow: 
+        -2px -2px 0 #000,  
+         2px -2px 0 #000,
+        -2px  2px 0 #000,
+         2px  2px 0 #000,       /* Outline mais grosso (2px) */
+         4px 4px 6px rgba(0, 0, 0, 0.7); /* Sombra um pouco mais presente */
+}
+
+.header-container {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 200px; /* Ajuste conforme o tamanho da sua logo */
+    margin-bottom: 20px;
+}
+
+.header-container h1 {
+    font-family: "Quicksand", sans-serif;
+}
+
+.logo-fundo {
+    position: absolute;
+    width: 250px;      /* Tamanho da logo atrás */
+    opacity: 0.35;      /* Deixa a logo de fundo meio transparente para não atrapalhar a leitura */
+    z-index: 1;        /* Camada de baixo */
+    pointer-events: none; /* Garante que a imagem não interfira nos cliques */
+}
+
+.jogo-container {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.input-area {
+    margin-bottom: 30px;
+    justify-content: space-between;
+}
+
+.linha {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 15px;
+    animation: slideIn 0.5s ease;
+    width: 100%;
+}
+
+.quadrado {
+    width: 100px;
+    height: 120px;
+    perspective: 1000px;
+    background-color: transparent !important;
+    border: none !important;
+}
+
+/* O "corpo" da carta que vai girar */
+.carta-inner {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    transition: transform 1.2s;
+    transform-style: preserve-3d;
+}
+
+/* Quando adicionarmos essa classe, a carta gira */
+.revelar .carta-inner {
+    transform: rotateY(180deg);
+}
+
+/* Estilo comum para as duas faces */
+.face-frente, .face-verso {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    border-radius: 5px;
+    box-sizing: border-box; /* ADICIONE ISSO: Garante que a borda não aumente o tamanho da carta */
+}
+
+/* A "capa" da carta (o que aparece primeiro) */
+.face-frente {
+    background-image: url("imagens/oferendaVerso.png");
+    background-size: 100%;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+/* O lado que contém a resposta */
+.face-verso {
+    transform: rotateY(180deg);
+    color: white;
+    text-shadow: 1px 1px 2px black;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    box-sizing: border-box;
+    overflow: visible; /* Adicione isso para a seta não ser cortada */
+}
+
+/* Cores do verso */
+.correto { 
+    background-image: url(imagens/oferendaVerde.png);
+    background-size: 130%;
+    background-position: center;
+    background-repeat: no-repeat; 
+}
+
+.errado { 
+    background-image: url(imagens/oferendaVermelha.png);
+    background-size: 120%;
+    background-position: center;
+    background-repeat: no-repeat;  
+}
+
+/* SUBSTITUA TODA A PARTE DE .maior E .menor POR ESTA */
+/* Isso garante que o container da seta exista */
+.maior, .menor {
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+
+.maior::after, .menor::after {
+    content: "";
+    position: absolute;
+    width: 35px;  /* Ajustei o tamanho */
+    height: 35px;
+    background-image: url('/DBDLE/imagens/seta.png'); 
+    background-size: contain;
+    background-repeat: no-repeat;
+    left: 50%;
+    z-index: 10; /* Garante que fique na frente da cor de fundo */
+}
+
+/* Seta para cima (Killer mais novo) */
+.maior::after {
+    top: 5px; 
+    transform: translateX(-50%) rotate(180deg); 
+    display: block !important;
+}
+
+/* Seta para baixo (Killer mais antigo) */
+.menor::after {
+    bottom: 5px; 
+    transform: translateX(-50%) rotate(0deg);
+    display: block !important;
+}
+
+.labels {
+    display: flex;
+    justify-content: center; /* Alinha igual às cartas */
+    gap: 10px;               /* Mesmo gap das cartas */
+    font-weight: bold;
+    margin-bottom: 10px;
+    color: #ccc;
+}
+
+.labels span { 
+    width: 100px;            /* Mesma largura da carta */
+    text-align: center;
+}
+
+@keyframes slideIn {
+    from { opacity: 0; transform: translateY(-20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.autocomplete-container {
+    position: relative;
+    display: inline-block;
+    margin-right: 18px;
+}
+
+.sugestoes-box {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background-color: #222; /* Mais escuro para destacar */
+    color: white;           /* Garante que o texto apareça */
+    border: 1px solid #555;
+    z-index: 9999;          /* Valor bem alto */
+    max-height: 200px;
+    overflow-y: auto;
+    display: none;
+}
+
+.sugestao-item {
+    padding: 10px;
+    cursor: pointer;
+    text-align: left;
+    border-bottom: 1px solid #444;
+}
+
+.sugestao-item:hover {
+    background-color: #555;
+}
+
+/* O fundo escuro que cobre a tela */
+.modal {
+    display: none; 
+    position: fixed;
+    z-index: 10000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.9);
+    align-items: center;
+    justify-content: center;
+}
+
+/* A caixa de mensagem */
+.modal-content {
+    background-color: #222;
+    padding: 40px;
+    border: 3px solid #1a7a33;
+    border-radius: 15px;
+    text-align: center;
+    animation: zoomIn 0.5s ease;
+}
+
+.modal-content h2 { color: #1a7a33; margin-top: 0; }
+.modal-content h1 { color: #fff; font-size: 3em; margin: 10px 0; }
+
+@keyframes zoomIn {
+    from { transform: scale(0); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
+}
+
+.modal-content button {
+    background-color: #1a7a33;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    font-size: 1.2em;
+    cursor: pointer;
+    border-radius: 18px;
+    margin-top: 20px;
+    transition: 0.7s;
+}
+
+.modal-content button:hover { 
+    background-color: #25a145; 
+    transition: 0.5s;
+}
+
+.foto-killer {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Faz a foto preencher o quadrado sem esticar */
+    border-radius: 3px;
+}
+
+/* Ajuste opcional para o verso que tem imagem */
+.face-verso:has(.foto-killer) {
+    padding: 0;
+    overflow: hidden;
+}
+
+#inputKiller {
+    border-radius: 10px;
+    background-color: #990000;
+    color: white;               /* Texto que você digita em branco */
+    font-weight: bold;          /* Deixa o texto digitado mais visível */
+    border: 1px solid #4d0000;
+    height: 40px;
+    width: 300px;
+    padding-left: 15px;         /* Afasta o texto da borda esquerda */
+    box-sizing: border-box;     /* Garante que o padding não aumente o tamanho */
+    outline: none;              /* Remove o brilho azul ao clicar */
+}
+
+#inputKiller::placeholder {
+    color: rgba(230, 230, 230, 0.7); /* Branco levemente transparente */
+}
+
+#chuteButton {
+    border-radius: 10px;
+    background-color: #990000;
+    color: white;
+    border: 1px solid;
+    border-color: #4d0000;
+    height: 40px;
+    width: 70px;
+    transition: 0.5s;
+}
+
+#chuteButton:hover {
+    cursor: pointer;
+    background-color: #4d0000;
+    color: white;
+    transition: 0.3s;
+}
