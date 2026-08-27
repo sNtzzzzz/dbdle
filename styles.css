@@ -152,7 +152,7 @@ body {
     position: absolute;
     width: 35px;  /* Ajustei o tamanho */
     height: 35px;
-    background-image: url('/DBDLE/imagens/seta.png'); 
+    background-image: url('imagens/seta.png'); 
     background-size: contain;
     background-repeat: no-repeat;
     left: 50%;
