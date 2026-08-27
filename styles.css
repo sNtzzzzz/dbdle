@@ -122,6 +122,8 @@ body {
     position: relative;
     box-sizing: border-box;
     overflow: visible; /* Adicione isso para a seta não ser cortada */
+    margin: 0;
+    padding: 0;
 }
 
 /* Cores do verso */
@@ -139,7 +141,14 @@ body {
     background-repeat: no-repeat;  
 }
 
-/* SUBSTITUA TODA A PARTE DE .maior E .menor POR ESTA */
+/* Fundo especial somente para a carta do Killer */
+.linha .quadrado:first-child .face-verso {
+    background-image: url("imagens/fundoKiller.png");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
 /* Isso garante que o container da seta exista */
 .maior, .menor {
     position: relative;
@@ -273,10 +282,10 @@ body {
 }
 
 .foto-killer {
-    width: 100%;
-    height: 100%;
-    object-fit: cover; /* Faz a foto preencher o quadrado sem esticar */
-    border-radius: 3px;
+    width: 94%;
+    height: 94%;
+    object-fit: cover;
+    object-position: center;
 }
 
 /* Ajuste opcional para o verso que tem imagem */
