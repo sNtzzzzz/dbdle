@@ -46,7 +46,7 @@ body {
 }
 
 .jogo-container {
-    max-width: 800px;
+    max-width: 900px;
     margin: 0 auto;
 }
 
@@ -133,6 +133,14 @@ body {
     background-position: center;
     background-repeat: no-repeat; 
 }
+
+.parcial {
+    background-image: url(imagens/oferendaAmarela.png);
+    background-size: 120%;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
 
 .errado { 
     background-image: url(imagens/oferendaVermelha.png);
