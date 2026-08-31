@@ -4,13 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>DBDLE</title>
-    <link rel="icon" type="image/x-icon" href="imagens/icone.png">
+    <link rel="icon" type="image/x-icon" href="images/icone.png">
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <div class="jogo-container">
         <div class="header-container">
-            <img src= "imagens/fundo.png" class="logo-fundo" alt="Logo DBD">
+            <img src= "images/fundo.png" class="logo-fundo" alt="Logo DBD">
             <h1>DBDLE</h1>
         </div>
         
@@ -42,6 +42,10 @@
             <button onclick="reiniciarJogo()">Jogar Novamente</button>
         </div>
     </div>
+    <script src="killers.js"></script>
     <script src="script.js"></script>
 </body>
+<audio id="musicaFundo" loop>
+    <source src="audio/somFundo.mp3" type="audio/mpeg">
+</audio>
 </html>

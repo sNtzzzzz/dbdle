@@ -104,7 +104,7 @@ body {
 
 /* A "capa" da carta (o que aparece primeiro) */
 .face-frente {
-    background-image: url("imagens/oferendaVerso.png");
+    background-image: url("images/oferendaVerso.png");
     background-size: 100%;
     background-position: center;
     background-repeat: no-repeat;
@@ -128,14 +128,14 @@ body {
 
 /* Cores do verso */
 .correto { 
-    background-image: url(imagens/oferendaVerde.png);
+    background-image: url(images/oferendaVerde.png);
     background-size: 130%;
     background-position: center;
     background-repeat: no-repeat; 
 }
 
 .parcial {
-    background-image: url(imagens/oferendaAmarela.png);
+    background-image: url(images/oferendaAmarela.png);
     background-size: 120%;
     background-position: center;
     background-repeat: no-repeat;
@@ -143,7 +143,7 @@ body {
 
 
 .errado { 
-    background-image: url(imagens/oferendaVermelha.png);
+    background-image: url(images/oferendaVermelha.png);
     background-size: 120%;
     background-position: center;
     background-repeat: no-repeat;  
@@ -151,7 +151,7 @@ body {
 
 /* Fundo especial somente para a carta do Killer */
 .linha .quadrado:first-child .face-verso {
-    background-image: url("imagens/fundoKiller.png");
+    background-image: url("images/fundoKiller.png");
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
@@ -169,7 +169,7 @@ body {
     position: absolute;
     width: 35px;  /* Ajustei o tamanho */
     height: 35px;
-    background-image: url('imagens/seta.png'); 
+    background-image: url('images/seta.png'); 
     background-size: contain;
     background-repeat: no-repeat;
     left: 50%;
