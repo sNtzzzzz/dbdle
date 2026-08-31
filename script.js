@@ -35,18 +35,52 @@ function jogar() {
     input.value = "";
 }
 
+function encontrarKiller(nomeDigitado) {
+    const busca = nomeDigitado.trim().toLowerCase();
+
+    return killers.find(killer => {
+
+        // Não considera Killers que já foram chutados
+        if (killersChutados.includes(killer.name)) {
+            return false;
+        }
+
+        // Procura pelo nome oficial
+        if (killer.name.toLowerCase() === busca) {
+            return true;
+        }
+
+        // Procura pelos aliases
+        return killer.aliases.some(alias =>
+            alias.toLowerCase() === busca
+        );
+    });
+}
+
 function verificarChute(nomeChutado) {
+    const busca = nomeChutado.trim().toLowerCase();
 
-    const palpite = killers.find(
-        k => k.name.toLowerCase() === nomeChutado.toLowerCase()
-    );
+    // Procura qualquer Killer que corresponda ao nome/alias
+    const killersCorrespondentes = killers.filter(killer => {
+        return killer.name.toLowerCase() === busca ||
+            killer.aliases.some(alias =>
+                alias.toLowerCase() === busca
+            );
+    });
 
-    if (!palpite) {
+    // Nenhum Killer possui esse nome ou alias
+    if (killersCorrespondentes.length === 0) {
         alert("Killer não encontrado!");
         return;
     }
 
-    if (killersChutados.includes(palpite.name)) {
+    // Procura um Killer correspondente que ainda não foi chutado
+    const palpite = killersCorrespondentes.find(killer =>
+        !killersChutados.includes(killer.name)
+    );
+
+    // Todos os Killers correspondentes já foram chutados
+    if (!palpite) {
         alert("Você já chutou esse Killer!");
         return;
     }
@@ -54,8 +88,9 @@ function verificarChute(nomeChutado) {
     killersChutados.push(palpite.name);
 
     const resultado = {
-
-        name: palpite.name === killerSecreto.name ? "correto" : "errado",
+        name: palpite.name === killerSecreto.name
+            ? "correto"
+            : "errado",
 
         gender: palpite.gender === killerSecreto.gender
             ? "correto"
@@ -92,19 +127,16 @@ function verificarChute(nomeChutado) {
 
     exibirNaTela(palpite, resultado);
 
-    // Conta quantos atributos foram acertados
     const atributosCorretos = Object.values(resultado)
         .filter(status => status === "correto")
         .length;
 
     console.log("Atributos corretos:", atributosCorretos);
 
-    // Espera todas as cartas terminarem de virar
     setTimeout(() => {
 
         if (resultado.name === "correto") {
 
-            // Acertou o Killer = Perfect
             audioPerfectSkillCheck.currentTime = 0;
             audioPerfectSkillCheck.play();
 
@@ -112,13 +144,11 @@ function verificarChute(nomeChutado) {
 
         } else if (atributosCorretos >= 3) {
 
-            // Acertou de 3 até 7 atributos
             audioGoodSkillCheck.currentTime = 0;
             audioGoodSkillCheck.play();
 
         } else {
 
-            // Acertou 0, 1 ou 2 atributos
             audioWrongSkillCheck.currentTime = 0;
             audioWrongSkillCheck.play();
 
@@ -235,41 +265,114 @@ function exibirNaTela(palpite, resultado) {
 
 const inputKiller = document.getElementById("inputKiller");
 const sugestoesBox = document.getElementById("sugestoes");
+let sugestoesAtuais = [];
+let sugestaoSelecionada = -1;
 
 // Evento que dispara toda vez que o usuário digita algo
 inputKiller.addEventListener("input", function() {
+
     const valor = this.value.toLowerCase();
-    sugestoesBox.innerHTML = ""; // Limpa as sugestões anteriores
+
+    sugestoesBox.innerHTML = "";
+
+    sugestoesAtuais = [];
+    sugestaoSelecionada = -1;
 
     if (!valor) {
         sugestoesBox.style.display = "none";
         return;
     }
 
-    // Filtra os killers que começam ou contêm o texto digitado
-    const filtrados = killers.filter(k => 
-        k.name.toLowerCase().includes(valor)
-    );
+    const filtrados = killers.filter(k => {
+
+        // Não mostra Killers que já foram chutados
+        if (killersChutados.includes(k.name)) {
+            return false;
+        }
+
+        // Procura no nome oficial
+        const nomeCorresponde = k.name
+            .toLowerCase()
+            .includes(valor);
+
+        // Procura nos aliases
+        const aliasCorresponde = k.aliases.some(alias =>
+            alias.toLowerCase().includes(valor)
+        );
+
+        return nomeCorresponde || aliasCorresponde;
+    });
+
+    sugestoesAtuais = filtrados;
 
     if (filtrados.length > 0) {
-        filtrados.forEach(k => {
+
+        filtrados.forEach((k, index) => {
+
             const div = document.createElement("div");
+
             div.className = "sugestao-item";
+
             div.innerText = k.name;
-            
-            // Quando clicar na sugestão, preenche o input e fecha a caixa
+
             div.onclick = function() {
+
                 inputKiller.value = k.name;
+
                 sugestoesBox.style.display = "none";
-                jogar(); // Opcional: já faz o chute automaticamente ao clicar
+
+                sugestoesAtuais = [];
+                sugestaoSelecionada = -1;
+
+                jogar();
             };
-            
+
             sugestoesBox.appendChild(div);
         });
+
         sugestoesBox.style.display = "block";
+
     } else {
+
         sugestoesBox.style.display = "none";
     }
+});
+
+inputKiller.addEventListener("keydown", function(e) {
+
+    if (e.key === "Tab" && sugestoesAtuais.length > 0) {
+
+        e.preventDefault();
+
+        sugestaoSelecionada++;
+
+        if (sugestaoSelecionada >= sugestoesAtuais.length) {
+            sugestaoSelecionada = 0;
+        }
+
+        const itens = sugestoesBox.querySelectorAll(".sugestao-item");
+
+        itens.forEach(item => {
+            item.classList.remove("selecionada");
+        });
+
+        itens[sugestaoSelecionada].classList.add("selecionada");
+
+        inputKiller.value =
+            sugestoesAtuais[sugestaoSelecionada].name;
+    }
+
+    if (e.key === "Enter" && sugestaoSelecionada >= 0) {
+
+        e.preventDefault();
+
+        jogar();
+
+        sugestoesAtuais = [];
+        sugestaoSelecionada = -1;
+        sugestoesBox.style.display = "none";
+    }
+
 });
 
 // Fecha a caixa de sugestões se clicar fora dela
