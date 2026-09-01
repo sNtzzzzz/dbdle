@@ -1,58 +1,16 @@
-const audioSkillCheck = new Audio("audio/skillCheck.mp3");
-const audioGoodSkillCheck = new Audio("audio/goodSkillCheck.mp3");
-const audioPerfectSkillCheck = new Audio("audio/perfectSkillCheck.mp3");
-const audioWrongSkillCheck = new Audio("audio/wrongSkillCheck.mp3");
-
-audioSkillCheck.volume = 0.2;
-audioGoodSkillCheck.volume = 0.05;
-audioPerfectSkillCheck.volume = 0.05;
-audioWrongSkillCheck.volume = 0.1;
 const killersChutados = [];
-
-document.getElementById("inputKiller").addEventListener("focus", () => {
-
-    audioSkillCheck.currentTime = 0;
-    audioSkillCheck.play();
-    const musica = document.getElementById("musicaFundo");
-    musica.volume = 0.1;
-    musica.play().catch(() => {
-        console.log("Não foi possível iniciar a música.");
-    });
-
-});
 
 const killerSecreto = killers[Math.floor(Math.random() * killers.length)];
 console.log("O killer secreto é:", killerSecreto.name);
-function jogar() {
 
+function jogar() {
     const input = document.getElementById("inputKiller");
     const nomeChutado = input.value.trim();
     verificarChute(nomeChutado);
     input.value = "";
-
-}
-
-function encontrarKiller(nomeDigitado) {
-    const busca = nomeDigitado.trim().toLowerCase();
-    return killers.find(killer => {
-        if (killersChutados.includes(killer.name)) {
-            return false;
-        }
-
-        if (killer.name.toLowerCase() === busca) {
-            return true;
-        }
-
-        return killer.aliases.some(alias =>
-            alias.toLowerCase() === busca
-        );
-
-    });
-
 }
 
 function verificarChute(nomeChutado) {
-
     const busca = nomeChutado.trim().toLowerCase();
     const killersCorrespondentes = killers.filter(killer => {
         return killer.name.toLowerCase() === busca ||
@@ -79,6 +37,7 @@ function verificarChute(nomeChutado) {
     }
 
     killersChutados.push(palpite.name);
+
     const resultado = {
 
         name: palpite.name === killerSecreto.name
@@ -92,13 +51,11 @@ function verificarChute(nomeChutado) {
         velocity: compararValores(
             palpite.velocity,
             killerSecreto.velocity
-
         ),
 
         terrorRadius: compararValores(
             palpite.terrorRadius,
             killerSecreto.terrorRadius
-
         ),
 
         height: palpite.height === killerSecreto.height
@@ -108,18 +65,15 @@ function verificarChute(nomeChutado) {
         realeseYear: compararValores(
             palpite.realeseYear,
             killerSecreto.realeseYear
-
         ),
 
         origin: palpite.origin === killerSecreto.origin
-
             ? "correto"
             : "errado",
 
         powers: compararPoderes(
             palpite.powers,
             killerSecreto.powers
-
         )
 
     };
@@ -129,8 +83,6 @@ function verificarChute(nomeChutado) {
     const atributosCorretos = Object.values(resultado)
         .filter(status => status === "correto")
         .length;
-
-    console.log("Atributos corretos:", atributosCorretos);
 
     setTimeout(() => {
 
@@ -144,10 +96,8 @@ function verificarChute(nomeChutado) {
             audioGoodSkillCheck.play();
 
         } else {
-
             audioWrongSkillCheck.currentTime = 0;
             audioWrongSkillCheck.play();
-
         }
 
     }, 6800);
